@@ -31,9 +31,19 @@ public class UserController {
         return userService.create(userDto).map(user -> ResponseEntity.badRequest().body(new User("BAD_REQ","BAD_REQ")));
     }
 
+    @PostMapping("/badreqnobody/")
+    Mono<ResponseEntity> createWithoutBody(@RequestBody Mono<UserDto> userDto) {
+        return userService.create(userDto).map(user -> ResponseEntity.badRequest().build());
+    }
+
     @PostMapping("/servererr/")
     Mono<ResponseEntity> createWithServerErr(@RequestBody Mono<UserDto> userDto) {
         return userService.create(userDto).map(user -> ResponseEntity.internalServerError().body(new User("SERVER_ERR","SERVER_ERR")));
+    }
+
+    @PostMapping("/servererrnobody/")
+    Mono<ResponseEntity> createWithServerErrNoBody(@RequestBody Mono<UserDto> userDto) {
+        return userService.create(userDto).map(user -> ResponseEntity.internalServerError().build());
     }
 
 
